@@ -1,4 +1,4 @@
-import { LoginLink,RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components"
+import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import Link from "next/link"
 
 const routes = [

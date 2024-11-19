@@ -1,20 +1,51 @@
 import { createTicket } from "@/actions/createTicket";
 
-export default async function SubmitTicketPage() {
+export default function SubmitTicketPage() {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title")?.toString();
+    const description = formData.get("description")?.toString();
+    const user_id = 1; // Replace with actual user ID if available
+
+    if (!title || !description) {
+      alert("Both title and description are required!");
+      return;
+    }
+
+    try {
+      await createTicket({
+        title,
+        description,
+        user_id,
+        status: "open",
+      });
+      alert("Ticket submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting ticket:", error);
+      alert("Failed to submit the ticket. Please try again.");
+    }
+  };
+
   return (
     <main className="text-center">
       <h1 className="text-3xl font-semibold mt-12 mb-4">Submit Ticket</h1>
-      <form className="flex flex-col gap-y-2 max-w-[350px] mx-auto">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-y-2 max-w-[350px] mx-auto"
+      >
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="py-2 px-3 rounded"
+          type="text"
+          name="title"
+          placeholder="Title"
+          className="py-2 px-3 rounded border"
         />
         <textarea
           name="description"
           placeholder="Describe your issue"
           rows={5}
+          className="py-2 px-3 rounded border"
         />
         <button
           type="submit"

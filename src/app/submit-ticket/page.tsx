@@ -1,4 +1,4 @@
-import { createTicket } from "@actions/actions";
+import { createTicket } from "@/actions/createTicket";
 
 export default async function SubmitTicketPage() {
   return (

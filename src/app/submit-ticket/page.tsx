@@ -1,32 +1,37 @@
+"use client"; 
 import { createTicket } from "@/actions/createTicket";
 
 export default function SubmitTicketPage() {
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+      
+        const formData = new FormData(e.currentTarget);
+        const title = formData.get("title")?.toString();
+        const description = formData.get("description")?.toString();
+      
+        if (!title || !description) {
+          alert("Both title and description are required!");
+          return;
+        }
+      
+        const ticket = {
+            title: title,
+            description: description,
+            user_id: 1,
+            status: "open",
+          };
 
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title")?.toString();
-    const description = formData.get("description")?.toString();
-    const user_id = 1; // Replace with actual user ID if available
+          const data = JSON.parse(JSON.stringify(ticket))
 
-    if (!title || !description) {
-      alert("Both title and description are required!");
-      return;
-    }
-
-    try {
-      await createTicket({
-        title,
-        description,
-        user_id,
-        status: "open",
-      });
-      alert("Ticket submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting ticket:", error);
-      alert("Failed to submit the ticket. Please try again.");
-    }
-  };
+        try {
+          await createTicket(data);
+          alert("Ticket submitted successfully!");
+        } catch (error) {
+          console.error("Error submitting ticket:", error);
+          alert("Failed to submit the ticket. Please try again.");
+        }
+      };
+      
 
   return (
     <main className="text-center">

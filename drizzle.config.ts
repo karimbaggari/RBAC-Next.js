@@ -4,6 +4,6 @@ export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: "postgres://hasirama:karim@localhost:5432/rbac-auth",
+    url: "postgres://hashirama:karim@localhost:5432/rbac-auth",
   }
 });

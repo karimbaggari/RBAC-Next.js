@@ -12,6 +12,9 @@ export default async function SubmitTicketPage() {
   if (!isLogged) {
     redirect("/api/auth/login");
   }
+
+
+
   return (
     <>
     <Header />

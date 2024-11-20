@@ -2,10 +2,14 @@ import { getAllTickets } from "@/actions/getTickets";
 import Header from "@/components/Header";
 import Ticket from "@/components/Ticket";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function TicketsPage() {
   const allTickets = await getAllTickets();
-  const { getPermission } = getKindeServerSession();
+  const { isAuthenticated, getPermission } = getKindeServerSession();
+  if (!(await isAuthenticated())) {
+    redirect("/api/auth/login");
+  }
   const result = await getPermission("read:ticket");
   if (!result?.isGranted) {
     return <div>Access denied</div>;

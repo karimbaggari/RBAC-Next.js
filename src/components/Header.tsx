@@ -27,7 +27,7 @@ export default async function Header() {
   const user = await getUser();
 
   return (
-    <header className="flex items-center justify-between border-b border-black/20 h-[55px]">
+    <header className="flex items-center justify-between border-b border-black/20 h-[55px] m-4 px-4">
       <nav>
         <ul className="flex items-center gap-x-5">
           {routes.map((route) => (
@@ -37,12 +37,12 @@ export default async function Header() {
           ))}
         </ul>
       </nav>
-      <div className="flex gap-x-3 text-sm">
+      <div className="flex gap-x-3 text-sm justify-center">
         {isLogged ? (
           <>
-            <div>
+            <div className="flex flex-col">
               <span>
-                Logged in as {user.family_name} with email {user.email}
+                Logged in as {user.family_name}
               </span>
             </div>
             <LogoutLink className="underline">Logout</LogoutLink>

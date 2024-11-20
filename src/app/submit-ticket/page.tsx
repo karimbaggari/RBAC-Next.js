@@ -1,64 +1,24 @@
-"use client"; 
-import { createTicket } from "@/actions/createTicket";
+// pages/submit-ticket.tsx (server-side logic)
+import Header from "@/components/Header";
+import SubmitTicketForm from "@/components/SubmitTicketForm";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
 
-export default function SubmitTicketPage() {
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-      
-        const formData = new FormData(e.currentTarget);
-        const title = formData.get("title")?.toString();
-        const description = formData.get("description")?.toString();
-      
-        if (!title || !description) {
-          alert("Both title and description are required!");
-          return;
-        }
-      
-        const ticket = {
-            title: title,
-            description: description,
-            user_id: 1,
-            status: "open",
-          };
+export default async function SubmitTicketPage() {
+  const { isAuthenticated } = getKindeServerSession();
 
-          const data = JSON.parse(JSON.stringify(ticket))
+  const isLogged = await isAuthenticated();
 
-        try {
-          await createTicket(data);
-          alert("Ticket submitted successfully!");
-        } catch (error) {
-          console.error("Error submitting ticket:", error);
-          alert("Failed to submit the ticket. Please try again.");
-        }
-      };
-      
-
+  if (!isLogged) {
+    redirect("/api/auth/login");
+  }
   return (
+    <>
+    <Header />
     <main className="text-center">
       <h1 className="text-3xl font-semibold mt-12 mb-4">Submit Ticket</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-y-2 max-w-[350px] mx-auto"
-      >
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          className="py-2 px-3 rounded border"
-        />
-        <textarea
-          name="description"
-          placeholder="Describe your issue"
-          rows={5}
-          className="py-2 px-3 rounded border"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 py-2 px-4 text-white rounded"
-        >
-          Submit
-        </button>
-      </form>
+      <SubmitTicketForm />
     </main>
+    </>
   );
 }

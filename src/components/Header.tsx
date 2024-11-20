@@ -12,7 +12,7 @@ const routes = [
     href: "/",
   },
   {
-    label: "Subnit ticket",
+    label: "Submit ticket",
     href: "/submit-ticket",
   },
   {
